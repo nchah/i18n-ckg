@@ -30,10 +30,14 @@ $ tree
 
 ## Dependencies
 
+The scripts use the following Python libraries, which can be easily installed with `pip`.
+
+- beautifulsoup - Python library for parsing HTML.
 - selenium - Python library for browser automation.
 	- Note: `pip3 install selenium==3.8.0` may work best until newer versions become more stable.
-	- a webdriver, e.g. geckodriver from https://www.seleniumhq.org/download/
+	- A webdriver is also required to run, e.g. geckodriver from https://www.seleniumhq.org/download/
 - translate - Python library for natural language translation.
+	- This library utilizes  `MyMemory` as a data source. Other providers can also be set, or a different library may be used.
 
 
 ## scripts
