@@ -58,9 +58,9 @@ def search_google(query):
     # Create dict of property: values, preserving order
     final_dict = {}
     for p, v in zip(props, vals):
-        prop = p.get_text().replace(u'\xa0', u' ')
+        prop = p.get_text().strip().replace(u'\xa0', u' ')
         prop = url[8:] + '/' + prop[:len(prop)-2]
-        val = v.get_text().replace(u'\xa0', u' ')
+        val = v.get_text().strip().replace(u'\xa0', u' ')
         final_dict[prop] = val
     # Done
     time.sleep(1.5)
@@ -174,6 +174,63 @@ def search_baidu(query):
     return final_dict
 
 
+def search_wiki(query, url='https://en.wikipedia.org/'):
+    """ This is a stop-gap measure in cases where static datasets
+    are not able to cover more recent infobox data 
+    (e.g. last DBpedia release was 2016-10).
+    return: final_dict: dict - key:values of structured data """
+    driver = webdriver.Firefox(executable_path=geckodriver_path)
+    # url = ''
+    driver.get(url)
+    time.sleep(1.5)
+
+    # Navigate to page and enter query
+    input_query = driver.find_element_by_id('searchInput')
+    input_query.send_keys(query)
+    input_query.send_keys(Keys.ENTER)
+    time.sleep(1.5)
+    # Navigates to search results page
+    top_result = driver.find_element_by_xpath('/html/body/div[3]/div[3]/div[3]/div/ul/li[1]/div[1]/a')
+    top_result.click()
+    time.sleep(1.5) 
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+
+    """
+    # * v1 method
+    # Properties and values 
+    data = soup.findAll('table', {'class': 'infobox biography vcard'})
+    props = data[0].findAll('th')
+    vals = data[0].findAll('td')
+
+    # Create dict of property: values, preserving order
+    final_dict = {}
+    for p, v in zip(props, vals):
+        prop = p.get_text().strip().replace(u'\xa0', u' ')
+        prop = url[8:] + '/' + prop[:len(prop)-2]
+        val = v.get_text().strip().replace(u'\xa0', u' ')
+        final_dict[prop] = val
+    """
+    # * v2 method
+    # future methods may just parse WP source, or adapt other extraction frameworks
+    data = soup.findAll('table', {'class': 'infobox biography vcard'})
+    tr = data[0].findAll('tr')
+
+    final_dict = {}
+    for i in range(1, len(tr)):  # Skip first
+        if tr[i]:  # only non-blank 'key' in pair
+            try:
+                prop = tr[i].th.get_text()
+                val  = tr[i].td.get_text()
+                final_dict[prop] = val
+            except AttributeError:
+                pass
+    # Done
+    time.sleep(1.5)
+    driver.close()
+    return final_dict
+
+
 def write_triples(filename, write_data):
     """ Create triples (S, P, O) and write to file
     return: None """
@@ -195,17 +252,23 @@ def main():
         # Each search site requires a custom approach
         if site == 'google.com':
             final_google = search_google(entity)
+            final_wiki_en = search_wiki(entity, 'https://en.wikipedia.org/')
         if site == 'naver.com':
             final_naver  = search_naver(entity)
+            final_wiki_ko = search_wiki(entity, 'https://ko.wikipedia.org/')
         if site == 'yandex.ru':
             final_yandex = search_yandex(entity)
+            final_wiki_ru = search_wiki(entity, 'https://ru.wikipedia.org/')
         if site == "baidu.com":
             final_baidu  = search_baidu(entity)
+            final_wiki_zh = search_wiki(entity, 'https://zh.wikipedia.org/')
 
     # Create triples (S, P, O) and write to file
     output_file = 'output-' + time_now
     # Iterate over the datasets and within each dataset
-    for final_set in [final_google, final_naver, final_yandex, final_baidu]:
+    final_sets = [final_google, final_naver, final_yandex, final_baidu
+                  final_wiki_en, final_wiki_ko, final_wiki_ru, final_wiki_zh]
+    for final_set in final_sets:
         for prop in final_set:
             # Subject portion is hardcoded for current implementation
             triple = 'Rain_(entertainer)' + '\t' + prop + '\t' + final_set[prop] + '\n'

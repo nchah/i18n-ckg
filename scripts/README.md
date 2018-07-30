@@ -35,6 +35,7 @@ The scripts use the following Python libraries, which can be easily installed wi
 - beautifulsoup - Python library for parsing HTML.
 - selenium - Python library for browser automation.
 	- Other libraries such as `requests` are also possible to use. `selenium` was the most robust solution across the different sites that were looked at.
+	- May need to set the path: `$ export PATH=$PATH:/path/to/directory/of/executable/`
 	- Note: `pip3 install selenium==3.8.0` may work best until newer versions become more stable.
 	- A webdriver is also required to run, e.g. geckodriver from https://www.seleniumhq.org/download/
 - translate - Python library for natural language translation.
