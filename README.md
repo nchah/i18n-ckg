@@ -22,7 +22,7 @@ $ tree
     ├── s1-collect-data.py
     ├── s2-recon-triples.py
     ├── s3-compile-i18n.py
-    └── webdriver-path.txt
+    └── webdriver-path-demo.txt
 
 ```
 
