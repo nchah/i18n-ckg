@@ -6,7 +6,7 @@
 # 
 # Note: Download the latest web driver at https://www.seleniumhq.org/download/
 # May be necessary to add to path:
-# $ export PATH=$PATH:/Users/nc/Code/nchah/i18n-ckg/geckodriver
+# $ export PATH=$PATH:/path/to/webdriver
 
 import datetime
 import time 
