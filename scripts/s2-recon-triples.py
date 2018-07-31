@@ -79,7 +79,7 @@ def main():
 
     # Setting up new file
     output_file = 'output-trans-' + time_now
-    output_file2 = 'output-trans-' + time_now
+    output_file2 = 'output-trans-2-' + time_now 
     
     # Output translated triples
     for ln in triples:
