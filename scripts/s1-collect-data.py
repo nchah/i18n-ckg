@@ -23,15 +23,8 @@ utc_datetime = utc_datetime0.strftime("%Y-%m-%d %H:%M:%S")
 time_now = utc_datetime0.strftime("%Y-%m-%d_%H-%M-%S")
 
 # Paths
+# Adjust accordingly if not set in system
 geckodriver_path = open('webdriver-path.txt').read()
-
-
-"""
-# select1 = Select(driver.find_element_by_name('level'))
-# select1.select_by_value('BLOCK')
-# driver.find_element_by_id('button1').click()
-# driver.implicitly_wait(10)  # Wait time in seconds
-"""
 
 
 def search_google(query):

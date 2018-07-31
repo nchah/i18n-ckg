@@ -42,9 +42,18 @@ The scripts use the following Python libraries, which can be easily installed wi
 	- This library utilizes  `MyMemory` as a data source. Other providers can also be set, or a different library may be used.
 
 
-## scripts
+## Scripts
 
 - s1-collect-data.py - Collects the data from various source websites and outputs triples
 - s2-recon-triples.py - Translates the non-English text and provides a CLI tool to reconcile complex triples
 - s3-compile-i18n.py - Computes the i18nPropScore metrics as per the paper
+
+
+## Roadmap
+
+- General TODOs:
+	- Adjust scripts to scale with larger inputs (languages, entities)
+	- Triples notation to be adjusted to align with standards and other output formats (e.g. JSON-LD)
+	- Update license on GitHub
+
 
