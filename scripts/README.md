@@ -55,6 +55,6 @@ The scripts use the following Python libraries, which can be easily installed wi
 	- Adjust scripts to scale with larger inputs (languages, entities)
 	- Triples notation to be adjusted to align with standards and other output formats (e.g. JSON-LD)
 	- Update license on GitHub
-    - Integrate with `rdflib`
+    - Integrate with `rdflib` library or other
 
 
